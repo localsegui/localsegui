@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gran Oportunidad de Inversión - BV. SEGUI 5254</title>
+    
+    <!-- Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter for clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Configure Tailwind theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e40af', // Deep blue
+                        secondary: '#f59e0b', // Amber for highlights
+                        accent: '#10b981' // Green for price/success
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar for a polished look */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Carousel specific styles */
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .carousel-slide {
+            display: none; /* Hide all by default */
+            width: 100%;
+            height: 500px; /* Fixed height, can adjust per device */
+            object-fit: cover; /* Ensure image covers area without distortion */
+            animation: fadeEffect 0.5s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            display: block; /* Show active slide */
+        }
+
+        /* Fade animation for smooth transitions */
+        @keyframes fadeEffect {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+
+        /* Navigation buttons */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border: none;
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            transition: background-color 0.3s, transform 0.2s;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background-color: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev-btn { left: 1rem; }
+        .next-btn { right: 1rem; }
+
+        /* Indicators (dots) */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .indicator.active {
+            background-color: #fff;
+            box-shadow: 0 0 4px rgba(0,0,0,0.5);
+        }
+
+        /* AI Chatbot Styles */
+        #chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        #chat-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #1e40af;
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        #chat-toggle:hover {
+            transform: scale(1.05);
+            background-color: #1e3a8a;
+        }
+
+        #chat-container {
+            display: none;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            flex-direction: column;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+            transform-origin: bottom right;
+            transition: all 0.3s ease;
+        }
+
+        #chat-container.open {
+            display: flex;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        #chat-header {
+            background-color: #1e40af;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        #chat-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #f8fafc;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            background-color: #1e40af;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .message.bot {
+            background-color: white;
+            color: #334155;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        /* Markdown styles for bot messages */
+        .message.bot p { margin-bottom: 0.5em; }
+        .message.bot p:last-child { margin-bottom: 0; }
+        .message.bot strong { font-weight: 600; color: #0f172a; }
+        .message.bot ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 0.5em; }
+        .message.bot li { margin-bottom: 0.25em; }
+
+        .loading-dots {
+            display: flex;
+            gap: 4px;
+            padding: 12px 14px;
+            background-color: white;
+            align-self: flex-start;
+            border-radius: 12px;
+            border-bottom-left-radius: 2px;
+            border: 1px solid #e2e8f0;
+            width: fit-content;
+        }
+
+        .loading-dots span {
+            width: 6px;
+            height: 6px;
+            background-color: #94a3b8;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        #chat-input-area {
+            display: flex;
+            padding: 12px;
+            background-color: white;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        #chat-input {
+            flex-grow: 1;
+            border: 1px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 8px 15px;
+            outline: none;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        #chat-input:focus {
+            border-color: #1e40af;
+        }
+
+        #chat-send {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            margin-left: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        
+        #chat-send:disabled {
+            background-color: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        #chat-send:not(:disabled):hover {
+            background-color: #059669;
+        }
+
+        @media (max-width: 480px) {
+            #chat-container {
+                width: calc(100vw - 40px);
+                height: 60vh;
+            }
+        }
+
+        /* Responsive height adjustments */
+        @media (max-width: 768px) {
+            .carousel-slide { height: 350px; }
+        }
+        @media (max-width: 480px) {
+            .carousel-slide { height: 250px; }
+            .carousel-btn { padding: 0.5rem; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-secondary selection:text-white flex flex-col min-h-screen">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 sm:py-6 flex justify-between items-center">
+            <div>
+                <!-- Emphasized Address as requested -->
+                <h1 class="text-2xl sm:text-3xl font-bold text-primary tracking-tight">BV. SEGUI 5254</h1>
+                <p class="text-sm text-slate-500 hidden sm:block">Rosario, Santa Fe</p>
+            </div>
+            
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="#galeria" class="text-slate-600 hover:text-primary font-medium transition-colors">Galería</a>
+                <a href="#detalles" class="text-slate-600 hover:text-primary font-medium transition-colors">Detalles</a>
+                <a href="#caracteristicas" class="text-slate-600 hover:text-primary font-medium transition-colors">Características</a>
+                <a href="#contacto" class="bg-primary hover:bg-blue-800 text-white px-5 py-2 rounded-full font-medium transition-colors shadow-md hover:shadow-lg">Coordinar Visita</a>
+            </nav>
+
+            <!-- Mobile menu button -->
+            <button class="md:hidden text-slate-600 hover:text-primary text-2xl focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg">
+            <div class="flex flex-col px-4 pt-2 pb-4 space-y-1">
+                <a href="#galeria" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-primary hover:bg-slate-50" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Galería</a>
+                <a href="#detalles" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-primary hover:bg-slate-50" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Detalles</a>
+                <a href="#caracteristicas" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-primary hover:bg-slate-50" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Características</a>
+                <a href="#contacto" class="block px-3 py-2 rounded-md text-base font-medium text-primary bg-blue-50 mt-2" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Coordinar Visita</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Title & Price -->
+        <section class="container mx-auto px-4 py-8 sm:py-12">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
+                <div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-2 leading-tight">
+                        Gran oportunidad de inversión
+                    </h2>
+                    <p class="text-lg text-slate-600 flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot text-secondary"></i> Bv. Segui entre C. Aldao y Matienzo
+                    </p>
+                </div>
+                
+                <!-- Emphasized Price Tag -->
+                <div class="bg-accent/10 border-2 border-accent text-accent px-6 py-4 rounded-xl flex items-center gap-3 shrink-0 shadow-sm">
+                    <i class="fa-solid fa-tag text-2xl"></i>
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider mb-1">Precio de Venta</p>
+                        <p class="text-3xl sm:text-4xl font-bold">U$D 90.000</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="galeria" class="mb-12">
+                <div class="carousel-container relative bg-slate-200">
+                    
+                    <!-- First main image as requested -->
+                    <img src="IMG-20260727-WA0005.jpg" alt="Frente del local comercial en Bv. Segui" class="carousel-slide active w-full object-cover">
+                    
+                    <!-- Other images -->
+                    <img src="IMG-20260727-WA0010.jpg" alt="Vista exterior desde la calle" class="carousel-slide w-full object-cover">
+                    <img src="IMG-20260727-WA0003.jpg" alt="Frente del inmueble con rejas" class="carousel-slide w-full object-cover">
+                    <img src="IMG-20260727-WA0001.jpg" alt="Vista del frente con arboleda" class="carousel-slide w-full object-cover">
+                    <img src="IMG-20260727-WA0013.jpg" alt="Interior del primer local" class="carousel-slide w-full object-cover">
+                    <img src="IMG-20260727-WA0012.jpg" alt="Interior del segundo local a reciclar" class="carousel-slide w-full object-cover">
+                    <img src="IMG-20260727-WA0002.jpg" alt="Amplio patio interno con césped y árboles" class="carousel-slide w-full object-cover">
+                    <img src="IMG-20260727-WA0011.jpg" alt="Vista del patio desde el interior" class="carousel-slide w-full object-cover">
+
+                    <!-- Navigation Controls -->
+                    <button class="carousel-btn prev-btn" onclick="moveSlide(-1)" aria-label="Imagen anterior">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-btn next-btn" onclick="moveSlide(1)" aria-label="Siguiente imagen">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+
+                    <!-- Indicators (generated by JS) -->
+                    <div class="carousel-indicators" id="carousel-indicators"></div>
+                </div>
+                <p class="text-center text-sm text-slate-500 mt-3 italic">Desliza o haz clic en las flechas para ver más fotos</p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-12">
+                
+                <!-- Blog-style Description -->
+                <div id="detalles" class="lg:w-2/3">
+                    <h3 class="text-2xl font-bold text-slate-800 border-b-2 border-slate-200 pb-2 mb-6">Descripción del Inmueble</h3>
+                    
+                    <div class="prose prose-lg text-slate-700 max-w-none">
+                        <p class="mb-4 leading-relaxed">
+                            <span class="font-semibold text-primary">Inmueble a reciclar</span>, ideal para inversores visionarios. Cuenta con <strong>dos locales al frente</strong> ubicados estratégicamente sobre Bv. Segui, a mitad de cuadra entre las calles Camilo Aldao y Matienzo. 
+                        </p>
+                        
+                        <p class="mb-4 leading-relaxed">
+                            La propiedad dispone de un <strong>pasillo independiente</strong> que conduce hacia un amplio y atractivo patio interno. Este espacio exterior cuenta con piso de cemento en una sección y una hermosa arboleda al fondo, brindando un respiro natural en un entorno urbano. Además, existe la <strong>posibilidad de construir una planta superior</strong> destinada a vivienda, maximizando el potencial del terreno.
+                        </p>
+
+                        <div class="bg-blue-50 border-l-4 border-primary p-6 rounded-r-lg my-8">
+                            <h4 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-map-location-dot text-primary"></i> Ubicación Estratégica
+                            </h4>
+                            <p class="m-0 text-sm sm:text-base">
+                                Situado en una zona de gran crecimiento comercial, asegura una amplia conectividad y un <strong>alto tráfico tanto vehicular como peatonal</strong>. Una propiedad con enorme versatilidad, perfecta para el desarrollo de múltiples rubros comerciales o estudios profesionales.
+                            </p>
+                        </div>
+
+                        <p class="mb-4 leading-relaxed">
+                            Si bien la propiedad requiere de una pequeña inversión inicial adicional para su acondicionamiento, su potencial la hace capaz de ofrecer una <strong>muy buena renta mensual garantizada</strong> a corto plazo.
+                        </p>
+
+                        <ul class="list-disc pl-5 mb-6 space-y-2 marker:text-secondary">
+                            <li>Actualmente se encuentra <strong>desocupado</strong>, listo para iniciar obras.</li>
+                            <li>Se evaluará la posibilidad de <strong>financiamiento</strong> para facilitar la adquisición.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Features Sidebar -->
+                <div id="caracteristicas" class="lg:w-1/3">
+                    <div class="bg-white rounded-xl shadow-md p-6 sm:p-8 sticky top-24 border border-slate-100">
+                        <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-secondary"></i> Características
+                        </h3>
+                        
+                        <ul class="space-y-4 text-sm sm:text-base">
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-solid fa-expand mr-2 w-5 text-center"></i> Sup. Terreno</span>
+                                <span class="font-bold text-slate-800">203 m²</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-solid fa-house mr-2 w-5 text-center"></i> Sup. Edificada</span>
+                                <span class="font-bold text-slate-800">80 m²</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-solid fa-arrows-left-right mr-2 w-5 text-center"></i> Frente</span>
+                                <span class="font-bold text-slate-800">8 m</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-solid fa-arrows-up-down mr-2 w-5 text-center"></i> Largo</span>
+                                <span class="font-bold text-slate-800">26,354 m</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-regular fa-compass mr-2 w-5 text-center"></i> Orientación</span>
+                                <span class="font-bold text-slate-800">Sur</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-regular fa-eye mr-2 w-5 text-center"></i> Disposición</span>
+                                <span class="font-bold text-slate-800">Frente</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-solid fa-building mr-2 w-5 text-center"></i> Tipo</span>
+                                <span class="font-bold text-slate-800">Comercial</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-solid fa-hammer mr-2 w-5 text-center"></i> Estado</span>
+                                <span class="font-bold text-secondary">A reciclar</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-solid fa-hourglass-half mr-2 w-5 text-center"></i> Antigüedad</span>
+                                <span class="font-bold text-slate-800">50 años</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-solid fa-door-open mr-2 w-5 text-center"></i> Ambientes</span>
+                                <span class="font-bold text-slate-800">3</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-solid fa-faucet-drip mr-2 w-5 text-center"></i> Servicios</span>
+                                <span class="font-bold text-slate-800">Agua, Electricidad</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-500 font-medium"><i class="fa-solid fa-receipt mr-2 w-5 text-center"></i> Expensas</span>
+                                <span class="font-bold text-accent">No</span>
+                            </li>
+                            <li class="flex justify-between items-center">
+                                <span class="text-slate-500 font-medium"><i class="fa-solid fa-building-columns mr-2 w-5 text-center"></i> Apto Crédito</span>
+                                <span class="font-bold text-accent">Sí</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="bg-slate-800 text-white py-16 mt-8">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-4">¿Te interesa esta propiedad?</h2>
+                    <p class="text-slate-300 max-w-2xl mx-auto">Contáctanos para más información o completa el formulario para coordinar una visita al inmueble.</p>
+                </div>
+
+                <div class="bg-white text-slate-800 rounded-2xl shadow-xl overflow-hidden">
+                    <div class="p-8 sm:p-10">
+                        <!-- Message Container (hidden by default) -->
+                        <div id="form-message" class="hidden mb-6 p-4 rounded-lg font-medium text-center transition-all duration-300"></div>
+
+                        <form id="visitaForm" class="space-y-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <!-- Nombre -->
+                                <div>
+                                    <label for="nombre" class="block text-sm font-medium text-slate-700 mb-2">Nombre y Apellido *</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fa-regular fa-user text-slate-400"></i>
+                                        </div>
+                                        <input type="text" id="nombre" name="nombre" required 
+                                            class="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-slate-50 focus:bg-white transition-colors"
+                                            placeholder="Ej. Juan Pérez">
+                                    </div>
+                                </div>
+                                
+                                <!-- Teléfono -->
+                                <div>
+                                    <label for="telefono" class="block text-sm font-medium text-slate-700 mb-2">Número de Teléfono *</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fa-solid fa-phone text-slate-400"></i>
+                                        </div>
+                                        <input type="tel" id="telefono" name="telefono" required 
+                                            class="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-slate-50 focus:bg-white transition-colors"
+                                            placeholder="Ej. 341 123 4567">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Preferencia de Visita -->
+                            <div>
+                                <label for="disponibilidad" class="block text-sm font-medium text-slate-700 mb-2">Días y Horarios para Visita *</label>
+                                <div class="relative">
+                                    <div class="absolute top-3 left-3 flex items-start pointer-events-none">
+                                        <i class="fa-regular fa-calendar-check text-slate-400"></i>
+                                    </div>
+                                    <textarea id="disponibilidad" name="disponibilidad" rows="3" required
+                                        class="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-slate-50 focus:bg-white transition-colors"
+                                        placeholder="Ej. Martes o Jueves por la mañana, después de las 10hs."></textarea>
+                                </div>
+                                <p class="mt-2 text-xs text-slate-500">Indicá tus preferencias y nos comunicaremos para confirmar el turno.</p>
+                            </div>
+
+                            <button type="submit" 
+                                class="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-lg shadow-sm text-lg font-medium text-white bg-primary hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all transform hover:-translate-y-1">
+                                <i class="fa-regular fa-paper-plane mr-2"></i> Solicitar Visita
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Chatbot Widget -->
+        <div id="chat-widget">
+            <div id="chat-container">
+                <div id="chat-header">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-robot"></i>
+                        <span>Asistente Virtual</span>
+                    </div>
+                    <button id="chat-close" aria-label="Cerrar chat">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="chat-messages">
+                    <div class="message bot">
+                        ¡Hola! Soy el asistente virtual de esta propiedad en Bv. Segui 5254. ¿En qué te puedo ayudar hoy?
+                    </div>
+                </div>
+                <div id="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Pregunta sobre la propiedad..." aria-label="Mensaje de chat">
+                    <button id="chat-send" aria-label="Enviar mensaje">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+            <button id="chat-toggle" aria-label="Abrir asistente virtual">
+                <i class="fa-solid fa-comment-dots"></i>
+            </button>
+        </div>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-auto">
+        <div class="container mx-auto px-4 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <p class="font-semibold text-white mb-1">Inmobiliaria Propiedades</p>
+                <p class="text-sm">Rosario, Santa Fe, Argentina</p>
+            </div>
+            <div class="flex gap-4">
+                <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-colors" aria-label="Facebook">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-accent hover:text-white transition-colors" aria-label="WhatsApp">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Carousel Logic ---
+        let slideIndex = 0;
+        const slides = document.querySelectorAll(".carousel-slide");
+        const indicatorsContainer = document.getElementById("carousel-indicators");
+        let autoSlideInterval;
+
+        // Initialize Carousel
+        function initCarousel() {
+            // Create indicators
+            slides.forEach((_, index) => {
+                const dot = document.createElement("span");
+                dot.classList.add("indicator");
+                dot.onclick = () => currentSlide(index);
+                indicatorsContainer.appendChild(dot);
+            });
+            showSlides(slideIndex);
+            startAutoSlide();
+        }
+
+        // Change slide based on n (+1 or -1)
+        function moveSlide(n) {
+            clearInterval(autoSlideInterval); // Stop auto when user interacts
+            showSlides(slideIndex += n);
+            startAutoSlide(); // Restart auto
+        }
+
+        // Jump to specific slide
+        function currentSlide(n) {
+            clearInterval(autoSlideInterval);
+            showSlides(slideIndex = n);
+            startAutoSlide();
+        }
+
+        // Main display logic
+        function showSlides(n) {
+            const dots = document.querySelectorAll(".indicator");
+            
+            // Loop back logic
+            if (n >= slides.length) { slideIndex = 0; }
+            if (n < 0) { slideIndex = slides.length - 1; }
+            
+            // Hide all slides and remove active class from dots
+            slides.forEach(slide => slide.classList.remove("active"));
+            dots.forEach(dot => dot.classList.remove("active"));
+            
+            // Show current
+            slides[slideIndex].classList.add("active");
+            dots[slideIndex].classList.add("active");
+        }
+
+        // Auto advance every 4 seconds
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                moveSlide(1);
+            }, 4000);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', initCarousel);
+
+
+        // --- AI Chatbot Logic ---
+        const chatToggle = document.getElementById('chat-toggle');
+        const chatContainer = document.getElementById('chat-container');
+        const chatClose = document.getElementById('chat-close');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const chatSend = document.getElementById('chat-send');
+
+        // Gemini API Configuration
+        // Note: In a real production app, never expose your API key directly in client-side code.
+        // It should be handled by a secure backend. The Canvas environment manages this implicitly.
+        const GEMINI_API_KEY = ""; // Canvas provides this automatically if empty
+        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+
+        // Property Knowledge Base for the System Prompt
+        const systemPrompt = `
+Eres un asistente inmobiliario virtual experto, amable y persuasivo, diseñado para responder preguntas sobre una propiedad específica en venta.
+
+INFORMACIÓN DE LA PROPIEDAD:
+- Dirección: Bv. Segui 5254 (entre C. Aldao y Matienzo), Rosario, Santa Fe.
+- Precio: U$D 90.000 (Oportunidad de inversión).
+- Tipo: Comercial, Inmueble a reciclar.
+- Superficie Terreno: 203 m².
+- Superficie Edificada: 80 m².
+- Medidas: Frente 8m, Largo 26,354m. Orientación Sur. Disposición Frente.
+- Antigüedad: 50 años aprox.
+- Ambientes: 3 (2 locales al frente, 1 pasillo independiente).
+- Servicios: Agua, Electricidad.
+- Expensas: No.
+- Apto Crédito: Sí.
+- Estado actual: Desocupado, listo para iniciar obras.
+- Características clave: 
+  - Dos locales al frente sobre calle muy transitada (Bv. Segui).
+  - Pasillo independiente que lleva a un amplio patio interno con césped y árboles.
+  - Posibilidad de construir planta superior para vivienda.
+  - Zona de gran crecimiento comercial, alto tráfico vehicular y peatonal.
+  - Se evalúa posibilidad de financiamiento.
+
+TUS REGLAS:
+1. Responde SIEMPRE basándote en la información proporcionada arriba.
+2. Si te preguntan algo que no está en la información, di cortésmente que no tienes ese dato exacto y sugiere contactar a la inmobiliaria a través del formulario o WhatsApp.
+3. Sé conciso y directo, usa párrafos cortos.
+4. Mantén un tono profesional, entusiasta y vendedor, destacando el potencial de inversión y la buena renta.
+5. Puedes usar formato Markdown básico (negritas para resaltar, viñetas) para hacer la lectura más fácil.
+6. Nunca inventes precios, medidas o características que no estén en la lista.
+        `;
+
+        // Store chat history for context
+        let chatHistory = [
+            {
+                role: "user",
+                parts: [{ text: "Hola, actúa como el asistente de esta propiedad basándote en las instrucciones." }]
+            },
+            {
+                role: "model",
+                parts: [{ text: "¡Hola! Soy el asistente virtual de esta propiedad en Bv. Segui 5254. ¿En qué te puedo ayudar hoy?" }]
+            }
+        ];
+
+        // Toggle chat visibility
+        chatToggle.addEventListener('click', () => {
+            chatContainer.classList.add('open');
+            chatToggle.style.display = 'none';
+            chatInput.focus();
+        });
+
+        chatClose.addEventListener('click', () => {
+            chatContainer.classList.remove('open');
+            setTimeout(() => {
+                chatToggle.style.display = 'flex';
+            }, 300); // Wait for transition
+        });
+
+        // Function to add a message to the UI
+        function appendMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+            
+            if (sender === 'bot') {
+                // Basic Markdown parsing for bold and line breaks
+                let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                formattedText = formattedText.replace(/\n/g, '<br>');
+                // Simple list formatting if present
+                if (formattedText.includes('- ')) {
+                   formattedText = formattedText.replace(/- (.*?)(?:<br>|$)/g, '<li>$1</li>');
+                   formattedText = formattedText.replace(/(<li>.*?<\/li>)/g, '<ul>$1</ul>');
+                   // Fix nested uls from simple regex
+                   formattedText = formattedText.replace(/<\/ul><ul>/g, ''); 
+                }
+                messageDiv.innerHTML = formattedText;
+            } else {
+                messageDiv.textContent = text;
+            }
+
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Show/hide loading indicator
+        function toggleLoading(show) {
+            if (show) {
+                const loadingDiv = document.createElement('div');
+                loadingDiv.id = 'loading-indicator';
+                loadingDiv.classList.add('loading-dots');
+                loadingDiv.innerHTML = '<span></span><span></span><span></span>';
+                chatMessages.appendChild(loadingDiv);
+                scrollToBottom();
+            } else {
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) {
+                    loadingIndicator.remove();
+                }
+            }
+        }
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Function to call Gemini API
+        async function fetchGeminiResponse(userMessage) {
+            // Append current user message to history
+            chatHistory.push({
+                role: "user",
+                parts: [{ text: userMessage }]
+            });
+
+            const payload = {
+                contents: chatHistory,
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                }
+            };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const botReply = candidate.content.parts[0].text;
+                    
+                    // Add bot reply to history
+                    chatHistory.push({
+                        role: "model",
+                        parts: [{ text: botReply }]
+                    });
+
+                    return botReply;
+                } else {
+                    return "Lo siento, tuve un problema procesando la respuesta. Por favor, intenta de nuevo.";
+                }
+            } catch (error) {
+                console.error("Error fetching from Gemini:", error);
+                return "Disculpa, hay un problema de conexión. Te sugiero usar el formulario de contacto o WhatsApp mientras lo solucionamos.";
+            }
+        }
+
+        // Handle sending message
+        async function handleSend() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // 1. Show user message
+            appendMessage(message, 'user');
+            chatInput.value = '';
+            
+            // Disable input while processing
+            chatInput.disabled = true;
+            chatSend.disabled = true;
+
+            // 2. Show loading
+            toggleLoading(true);
+
+            // 3. Get response from API
+            const response = await fetchGeminiResponse(message);
+
+            // 4. Hide loading and show response
+            toggleLoading(false);
+            appendMessage(response, 'bot');
+
+            // Re-enable input
+            chatInput.disabled = false;
+            chatSend.disabled = false;
+            chatInput.focus();
+        }
+
+        // Event listeners for sending
+        chatSend.addEventListener('click', handleSend);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSend();
+            }
+        });
+
+
+        // --- Form Handling ---
+        const form = document.getElementById('visitaForm');
+        const messageBox = document.getElementById('form-message');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent actual submission for demo
+            
+            // Get values
+            const nombre = document.getElementById('nombre').value;
+            
+            // Basic UI simulation of successful submission
+            const btn = form.querySelector('button[type="submit"]');
+            const originalBtnHtml = btn.innerHTML;
+            
+            // Loading state
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Enviando...';
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            // Simulate network request
+            setTimeout(() => {
+                // Show success message
+                messageBox.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i> ¡Gracias ${nombre}! Tu solicitud ha sido enviada. Nos contactaremos a la brevedad.`;
+                messageBox.classList.remove('hidden', 'bg-red-100', 'text-red-700');
+                messageBox.classList.add('bg-green-100', 'text-green-800', 'border', 'border-green-300');
+                
+                // Reset form
+                form.reset();
+                
+                // Restore button
+                btn.innerHTML = originalBtnHtml;
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    messageBox.classList.add('hidden');
+                }, 5000);
+
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
