@@ -925,8 +925,90 @@ TUS REGLAS:
             }
         });
 
+        document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('visitaForm');
+    const formMessage = document.getElementById('form-message');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnContent = submitBtn.innerHTML;
 
-        // --- Form Handling ---
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Limpiar alertas previas
+        formMessage.classList.add('hidden');
+        formMessage.classList.remove('bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+
+        const nombre = document.getElementById('nombre').value.trim();
+        const telefono = document.getElementById('telefono').value.trim();
+        const disponibilidad = document.getElementById('disponibilidad').value.trim();
+
+        // Validación alfabética estricta en JS
+        const nombreRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/;
+        if (!nombreRegex.test(nombre)) {
+            mostrarError('El nombre solo debe contener letras.');
+            return;
+        }
+
+        // Validación numérica estricta en JS
+        const telefonoRegex = /^[0-9\s\-]+$/;
+        if (!telefonoRegex.test(telefono)) {
+            mostrarError('El teléfono solo debe contener números, espacios o guiones.');
+            return;
+        }
+
+        // Bloquear botón y mostrar spinner de carga
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin mr-2"></i> Enviando...`;
+
+        try {
+            // Petición directa a FormSubmit usando AJAX/JSON
+            const response = await fetch('https://formsubmit.co', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    nombre: nombre,
+                    telefono: telefono,
+                    disponibilidad: disponibilidad,
+                    _subject: `Nueva solicitud de visita al inmueble - ${nombre}` // Asunto personalizado para el correo
+                })
+            });
+
+            // FormSubmit devuelve una respuesta JSON nativa
+            const result = await response.json();
+
+            // Verificamos si FormSubmit procesó el envío correctamente (devuelve "true" en formato de texto o booleano)
+            if (result.success === "true" || result.success === true) {
+                formMessage.textContent = '¡Solicitud enviada con éxito! Nos comunicaremos a la brevedad.';
+                formMessage.classList.add('bg-green-100', 'text-green-800');
+                formMessage.classList.remove('hidden');
+                form.reset();
+                
+                // Ocultar el mensaje automáticamente tras 5 segundos
+                setTimeout(() => {
+                    formMessage.classList.add('hidden');
+                }, 5000);
+            } else {
+                mostrarError('Hubo un error al procesar tu solicitud con el servicio de correo.');
+            }
+        } catch (error) {
+            mostrarError('No se pudo conectar con el servidor de envío. Inténtalo más tarde.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnContent;
+        }
+    });
+
+    function mostrarError(mensaje) {
+        formMessage.textContent = mensaje;
+        formMessage.classList.add('bg-red-100', 'text-red-800');
+        formMessage.classList.remove('hidden');
+    }
+});
+
+ /*     // --- Form Handling ---
         const form = document.getElementById('visitaForm');
         const messageBox = document.getElementById('form-message');
 
@@ -968,7 +1050,7 @@ TUS REGLAS:
             }, 1500);
         });
 
-document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('visitaForm');
     const formMessage = document.getElementById('form-message');
     const submitBtn = form.querySelector('button[type="submit"]');
@@ -1040,7 +1122,8 @@ document.addEventListener('DOMContentLoaded', () => {
         formMessage.classList.remove('hidden');
     }
 });
-
+*/
+        
     </script>
 </body>
 </html>
