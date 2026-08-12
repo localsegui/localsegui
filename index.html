@@ -1008,8 +1008,18 @@ TUS REGLAS:
             }
         });
 
-         
-     
+   
+body: JSON.stringify({
+    nombre: nombre,
+    telefono: telefono,
+    disponibilidad: disponibilidad,
+    _subject: `Nueva solicitud de visita al inmueble - ${nombre}`,
+    
+    // ESTAS DOS LÍNEAS EVITAN LA REDIRECCIÓN Y EL PASO INTERMEDIO:
+    _next: window.location.href, // Le dice a la API que se quede en la misma URL actual
+    _captcha: "false"            // Desactiva el reCAPTCHA visual externo que obliga a salir de tu web
+})
+
 
      
         </script>
