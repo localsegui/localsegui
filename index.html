@@ -556,12 +556,13 @@
     action="https://formsubmit.co/local_segui@yahoo.com"
     method="POST"
     id="visitaForm"
-    class="space-y-6"
->
+    class="space-y-6">
     <!-- Configuración de FormSubmit -->
     <input type="hidden" name="_subject" value="Nueva solicitud de visita - Bv. Segui 5254">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
+	<input type="hidden" name="_next" value="https://bit.ly/localsegui">
+			
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
@@ -1009,19 +1010,7 @@ TUS REGLAS:
         });
 
    
-body: JSON.stringify({
-    nombre: nombre,
-    telefono: telefono,
-    disponibilidad: disponibilidad,
-    _subject: `Nueva solicitud de visita al inmueble - ${nombre}`,
-    
-    // ESTAS DOS LÍNEAS EVITAN LA REDIRECCIÓN Y EL PASO INTERMEDIO:
-    _next: window.location.href, // Le dice a la API que se quede en la misma URL actual
-    _captcha: "false"            // Desactiva el reCAPTCHA visual externo que obliga a salir de tu web
-})
 
-
-     
         </script>
 </body>
 </html>
