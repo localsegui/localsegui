@@ -64,17 +64,42 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
 
-        .carousel-slide {
-            display: none; /* Hide all by default */
-            width: 100%;
-            height: 500px; /* Fixed height, can adjust per device */
-            object-fit: cover; /* Ensure image covers area without distortion */
-            animation: fadeEffect 0.5s ease-in-out;
-        }
+        /* Carousel specific styles */
+.diapositiva {
+    display: none; /* Oculta el contenedor completo (imagen + título) */
+    position: relative; /* Permite posicionar el título de forma absoluta dentro */
+    width: 100%;
+}
 
-        .carousel-slide.active {
-            display: block; /* Show active slide */
-        }
+.diapositiva.active {
+    display: block; /* Muestra la diapositiva activa completa */
+}
+
+.carousel-slide {
+    width: 100%;
+    height: 500px; /* Mantiene tu altura fija actual */
+    object-fit: cover; 
+    display: block; /* Evita espacios en blanco debajo de la imagen */
+    animation: fadeEffect 0.5s ease-in-out;
+}
+
+/* Título moderno con degradado negro inferior para legibilidad */
+.titulo-foto {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2.5rem 1.5rem 1.5rem 1.5rem; /* Más espacio abajo para no pisar los puntitos (indicators) */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+    color: #ffffff;
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    z-index: 5; /* Por debajo de los botones de navegación (z-index: 10) */
+}
+
 
         /* Fade animation for smooth transitions */
         @keyframes fadeEffect {
@@ -397,7 +422,7 @@
 
             <div id="galeria" class="mb-12">
                 <div class="carousel-container relative bg-slate-200">
-                    <div class="diapositiva">
+                    <div class="diapositiva active">
     				 <!-- First main image as requested -->
                     	<h3 class="titulo-foto">Frente del local comercial en Bv. Segui</h3>
 						<img src="IMG-20260727-WA0005.jpg" alt="Frente del local comercial en Bv. Segui" class="carousel-slide active w-full object-cover">
@@ -412,7 +437,7 @@
 						<img src="IMG-20260727-WA0003.jpg" alt="Frente del inmueble con rejas" class="carousel-slide w-full object-cover">
 					</div>
                     <div class="diapositiva">
-    					<h3>Vista del frente con arboleda</h3>
+    					<h3 class="titulo-foto">Vista del frente con arboleda</h3>
 						<img src="IMG-20260727-WA0001.jpg" alt="Vista del frente con arboleda" class="carousel-slide w-full object-cover">
   					</div>
                     <div class="diapositiva">
@@ -749,7 +774,7 @@
     <script>
         // --- Carousel Logic ---
         let slideIndex = 0;
-        const slides = document.querySelectorAll(".carousel-slide");
+        const slides = document.querySelectorAll(".diapositiva");
         const indicatorsContainer = document.getElementById("carousel-indicators");
         let autoSlideInterval;
 
