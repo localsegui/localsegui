@@ -62,6 +62,22 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
 
+		.diapositiva img {
+  		width: 100%;
+  		display: block;
+		}
+
+		/* Estilo si quieres el título flotando sobre la imagen */
+		.titulo-foto {
+  		position: absolute;
+  		bottom: 20px;
+  		left: 20px;
+  		background-color: rgba(0, 0, 0, 0.5);
+  		color: white;
+  		padding: 10px;
+  		margin: 0;
+		}
+		
         .carousel-slide {
             display: none; /* Hide all by default */
             width: 100%;
@@ -395,42 +411,42 @@
 
             <div id="galeria" class="mb-12">
                 <div class="carousel-container relative bg-slate-200">
-                    <div>
+                    <div class="diapositiva">
     				 <!-- First main image as requested -->
-                    	<h3>Frente del local comercial en Bv. Segui</h3>
+                    	<h3 class="titulo-foto">Frente del local comercial en Bv. Segui</h3>
 						<img src="IMG-20260727-WA0005.jpg" alt="Frente del local comercial en Bv. Segui" class="carousel-slide active w-full object-cover">
   					</div>
-                    <div>
+                    <div class="diapositiva">
     				 <!-- Other images -->
-                    	<h3>Vista exterior desde la calle</h3>
+                    	<h3 class="titulo-foto">Vista exterior desde la calle</h3>
 						<img src="IMG-20260727-WA0010.jpg" alt="Vista exterior desde la calle" class="carousel-slide w-full object-cover">
   					</div>
-                    <div>
-    					<h3>Frente del inmueble con rejas</h3>
+                    <div class="diapositiva">
+    					<h3 class="titulo-foto">Frente del inmueble con rejas</h3>
 						<img src="IMG-20260727-WA0003.jpg" alt="Frente del inmueble con rejas" class="carousel-slide w-full object-cover">
 					</div>
-                    <div>
+                    <div class="diapositiva">
     					<h3>Vista del frente con arboleda</h3>
 						<img src="IMG-20260727-WA0001.jpg" alt="Vista del frente con arboleda" class="carousel-slide w-full object-cover">
   					</div>
-                    <div>
-    					<h3>Interior del primer local</h3>
+                    <div class="diapositiva">
+    					<h3 class="titulo-foto">Interior del primer local</h3>
 						<img src="IMG-20260727-WA0013.jpg" alt="Interior del primer local" class="carousel-slide w-full object-cover">
   					</div>
-                    <div>
-    					<h3>Interior del primer local</h3>
+                    <div class="diapositiva">
+    					<h3 class="titulo-foto">Interior del primer local</h3>
 						<img src="IMG-20260727-WA0012.jpg" alt="Interior del primer local" class="carousel-slide w-full object-cover">
   					</div>
-                   <div>
-    					<h3>Interior del segundo local a reciclar</h3>
+                   <div class="diapositiva">
+    					<h3 class="titulo-foto">Interior del segundo local a reciclar</h3>
 					   <img src="IMG-20260727-WA0004.jpg" alt="Interior del segundo local a reciclar" class="carousel-slide w-full object-cover">
   					</div>
-                    <div>
-    					<h3>Amplio patio interno con césped y árboles</h3>
+                    <div class="diapositiva">
+    					<h3 class="titulo-foto">Amplio patio interno con césped y árboles</h3>
 						<img src="IMG-20260727-WA0002.jpg" alt="Amplio patio interno con césped y árboles" class="carousel-slide w-full object-cover">
   					</div>
-                    <div>
-    					<h3>Vista del patio desde la terraza</h3>
+                    <div class="diapositiva">
+    					<h3 class="titulo-foto">Vista del patio desde la terraza</h3>
 						<img src="IMG-20260727-WA0011.jpg" alt="Vista del patio desde la terraza" class="carousel-slide w-full object-cover">
   					</div>
 
