@@ -32,8 +32,16 @@
             }
         }
     </script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+		/* obligar al canvas a ocupar el contenedor (Chart.js puede poner atributos inline) */
+		.chart-container canvas {
+  		width: 100% !important;
+  		height: 100% !important;
+  		display: block;
+  		margin: 0 auto;
+		}
         
         /* Custom scrollbar for a polished look */
         ::-webkit-scrollbar {
@@ -616,30 +624,34 @@
 									                       
                             </li>
 							
-							<li class=" flex flex-col items-center justify-center">
-							 <!-- Data Visuals -->
-            					<div class="lg:col-span-5 flex flex-col justify-center space-y-8">
-                <div class="glass-card p-8 rounded-2xl shadow-sm border">
-                    <h3 class="text-xl font-bold mb-6 text-center">Distribución de Superficie</h3>
-                    					<div class="chart-container">
-                        					<canvas id="areaChart"></canvas>
-                    					</div>
-                    					<p class="text-xs text-stone-500 mt-4 text-center">Comparativa entre superficie total de terreno y metros edificados.</p>
-                					</div>
+							<li class="flex flex-col items-center justify-center">
+  <!-- Data Visuals -->
+  <div class="lg:col-span-5 flex flex-col justify-center space-y-8 w-full">
+    <div class="glass-card p-8 rounded-2xl shadow-sm border">
+      <h3 class="text-xl font-bold mb-6 text-center">Distribución de Superficie</h3>
 
-                					<div class="grid grid-cols-2 gap-4">
-                    					<div class="bg-white p-6 rounded-xl border shadow-sm text-center">
-                        					<span class="block text-3xl font-bold" style="color: #5592b0;">203</span>
-                        					<span class="text-xs uppercase tracking-tighter text-stone-500 font-bold">m² Terreno</span>
-                    					</div>
-                    					<div class="bg-white p-6 rounded-xl border shadow-sm text-center">
-                        					<span class="block text-3xl font-bold "style="color: #5592b0;">80</span>
-                        					<span class="text-xs uppercase tracking-tighter text-stone-500 font-bold">m² Edificados</span>
-                    					</div>
-                					</div>
-           						 </div>
-        					</section>
-							</li>
+      <!-- Contenedor del chart: altura fija y flex para centrar -->
+      <div class="chart-container w-full h-48 md:h-56 flex items-center justify-center">
+        <canvas id="areaChart" class="w-full h-full block"></canvas>
+      </div>
+
+      <p class="text-xs text-stone-500 mt-4 text-center">
+        Comparativa entre superficie total de terreno y metros edificados.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 w-full">
+      <div class="bg-white p-6 rounded-xl border shadow-sm text-center">
+        <span class="block text-3xl font-bold" style="color: #5592b0;">203</span>
+        <span class="text-xs uppercase tracking-tighter text-stone-500 font-bold">m² Terreno</span>
+      </div>
+      <div class="bg-white p-6 rounded-xl border shadow-sm text-center">
+        <span class="block text-3xl font-bold" style="color: #5592b0;">80</span>
+        <span class="text-xs uppercase tracking-tighter text-stone-500 font-bold">m² Edificados</span>
+      </div>
+    </div>
+  </div>
+</li>
                         </ul>
                     </div>
                 </div>
@@ -1131,7 +1143,7 @@ TUS REGLAS:
             }
         });
 
-   
+   		
 		// --- Chart.js Logic ---
         const ctx = document.getElementById('areaChart').getContext('2d');
         new Chart(ctx, {
@@ -1166,6 +1178,7 @@ TUS REGLAS:
             }
         });
         </script>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js">
+		
+			
 </body>
 </html>
