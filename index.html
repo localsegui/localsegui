@@ -609,13 +609,34 @@
                             </li>
 							<li class=" flex flex-col items-center justify-center">
                                 	
-									<i class="fa-solid text-centerfa-building-columns mr-1 w-9">
+									<i class="fa-solid text-centerfa-building-columns mr-1 w-12">
 									<img src="lote_24b.jpg" alt="Lote 24b" class="w-full h-[200px] object-cover object-center">
 									Lote 24b
 									</i>
 									                       
                             </li>
-							
+							 <!-- Data Visuals -->
+            					<div class="lg:col-span-5 flex flex-col justify-center space-y-8">
+                					<div class="glass-card p-8 rounded-2xl shadow-sm border">
+                    					<h3 class="text-xl font-bold mb-6 text-center">Distribución de Superficie</h3>
+                    					<div class="chart-container">
+                        					<canvas id="areaChart"></canvas>
+                    					</div>
+                    					<p class="text-xs text-stone-500 mt-4 text-center">Comparativa entre superficie total de terreno y metros edificados.</p>
+                					</div>
+
+                					<div class="grid grid-cols-2 gap-4">
+                    					<div class="bg-white p-6 rounded-xl border shadow-sm text-center">
+                        					<span class="block text-3xl font-bold" style="color: #5592b0;">203</span>
+                        					<span class="text-xs uppercase tracking-tighter text-stone-500 font-bold">m² Terreno</span>
+                    					</div>
+                    					<div class="bg-white p-6 rounded-xl border shadow-sm text-center">
+                        					<span class="block text-3xl font-bold "style="color: #5592b0;">80</span>
+                        					<span class="text-xs uppercase tracking-tighter text-stone-500 font-bold">m² Edificados</span>
+                    					</div>
+                					</div>
+           						 </div>
+        					</section>
                         </ul>
                     </div>
                 </div>
@@ -1108,7 +1129,39 @@ TUS REGLAS:
         });
 
    
-
+		// --- Chart.js Logic ---
+        const ctx = document.getElementById('areaChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['M2 Edificados', 'M2 Terreno Libre'],
+                datasets: [{
+                    label: 'Metros Cuadrados',
+                    data: [80, 123],
+                    backgroundColor: ['#5592b0', 'rgba(85,146,176,0.38)'],
+                    borderRadius: 8,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true,
+                        grid: { display: false },
+                        ticks: { font: { size: 10 } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 10, weight: 'bold' } }
+                    }
+                }
+            }
+        });
         </script>
 </body>
 </html>
