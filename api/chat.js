@@ -15,8 +15,7 @@ export default async function handler(req, res) {
   try {
     // 2. Traemos tu llave secreta de la bóveda de Vercel
     const apiKey = process.env.GEMINI_API_KEY;
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-    // 3. Enviamos el mensaje a Gemini
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;    // 3. Enviamos el mensaje a Gemini
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
