@@ -946,11 +946,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const chatSend = document.getElementById('chat-send');
 
         // Gemini API Configuration
-        // Note: In a real production app, never expose your API key directly in client-side code.
-        // It should be handled by a secure backend. The Canvas environment manages this implicitly.
-        const GEMINI_API_KEY = ""; // Canvas provides this automatically if empty
-        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
 
+		// Como el intermediario está en la misma web, solo necesitamos apuntar a la carpeta api
+const GEMINI_API_URL = "/api/chat";
         // Property Knowledge Base for the System Prompt
         const systemPrompt = `
 Eres un asistente inmobiliario virtual experto, amable y persuasivo, diseñado para responder preguntas sobre una propiedad específica en venta.
